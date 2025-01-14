@@ -9,7 +9,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            align-items: center; /* Căn giữa theo chiều ngang */
+            align-items: center;
             height: auto;
             background-color: #F5F5DC;
             padding-top: 20px;
@@ -28,7 +28,7 @@
         .container {
             display: flex;
             gap: 50px;
-            justify-content: center; /* Căn giữa các nút A và B */
+            justify-content: center; 
             width: 100%;
         }
         .circle {
@@ -93,7 +93,7 @@
         .result-section {
             margin-top: 30px; 
             margin-bottom: 20px; 
-            text-align: center; /* Căn giữa nội dung */
+            text-align: center; 
         }
         .compare-result span {
             font-size: 40px; 
@@ -114,12 +114,21 @@
             flex-direction: row;
             flex-wrap: wrap; 
             margin-top: 10px; 
-            justify-content: center; /* Căn giữa các kết quả so sánh */
+            justify-content: center; 
         }
         .accuracy-section {
             margin-top: 20px;
             font-size: 24px; 
-            text-align: center; /* Căn giữa nội dung trong phần tỷ lệ chính xác */
+            text-align: center; 
+        }
+        .info-box {
+            border: 2px solid #007BFF; 
+            border-radius: 8px; 
+            padding: 20px; 
+            background-color: #ffffff; 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+            text-align: center; 
+            margin-bottom: 20px; /* Khoảng cách giữa khung thông tin và phần nhập key */
         }
     </style>
 </head>
@@ -129,17 +138,24 @@
 <hr>
 
 <div class="input-container" id="inputSection">
+    <div class="info-box">
+        <h3>Bot Phân Tích Kết Quả Game Tài Xỉu</h3>
+        <p>Created by HTeam</p>
+        <p>Admin Nguyễn Việt Hùng</p>
+        <p>Version: 1.1</p>
+        <p>Lấy key tại uid fb: viethung2002tienhai</p>
+    </div>
     <input type="text" id="apikey" placeholder="Nhập khóa của bạn" />
-    <button id="submitKey">Gửi Khóa</button>
+    <button id="submitKey">Gửi Key</button>
 </div>
 
-<div class="loader" id="loader">🔄 Đang tải<span id="dots">.</span></div> 
+<div class="loader" id="loader">HTeam<br>Đang tải<span id="dots">.</span></div> 
 
 <div class="input-container" id="historySection" style="display: none;">
     <h3>Lịch Sử</h3>
     <p id="historyText">Chưa có lịch sử.</p>
-    <button class="circle" id="buttonA" onclick="addToHistory('A')">A</button>
-    <button class="circle" id="buttonB" onclick="addToHistory('B')">B</button>
+    <button class="circle" id="buttonA" onclick="addToHistory('Tài')">Tài</button>
+    <button class="circle" id="buttonB" onclick="addToHistory('Xỉu')">Xỉu</button>
     <button class="submit-button" id="submitHistory">Gửi Lịch Sử</button> 
 </div>
 
@@ -147,13 +163,13 @@
     <div class="circle-container">
         <div class="container">
             <div class="vertical">
-                <div id="circleA" class="circle" onclick="setGameSelection('A')">A</div>
-                <div class="label">A</div>
+                <div id="circleA" class="circle" onclick="setGameSelection('Tài')">T</div>
+                <div class="label">Tài</div>
             </div>
             <button class="button" id="rotateButton">🔁</button>
             <div class="vertical">
-                <div id="circleB" class="circle" onclick="setGameSelection('B')">B</div>
-                <div class="label">B</div>
+                <div id="circleB" class="circle" onclick="setGameSelection('Xỉu')">X</div>
+                <div class="label">Xỉu</div>
             </div>
         </div>
     </div>
@@ -178,8 +194,8 @@
     
     <h3>Kết quả game:</h3>
     <div class="container">
-        <button class="circle" id="resultCircleA" onclick="setGameResult('A')">A</button>
-        <button class="circle" id="resultCircleB" onclick="setGameResult('B')">B</button>
+        <button class="circle" id="resultCircleA" onclick="setGameResult('Tài')">Tài</button>
+        <button class="circle" id="resultCircleB" onclick="setGameResult('Xỉu')">Xỉu</button>
     </div>
     <div class="separator"></div>
 
@@ -227,12 +243,12 @@
             await loadValidKeys(); 
 
             if (validKeys.includes(apikeyInput.value)) {
-                alert('Khóa đã được gửi: ' + apikeyInput.value);
+                alert('Key đúng rồi nè: ' + apikeyInput.value);
                 apikeyInput.value = '';
                 inputSection.style.display = 'none'; 
                 historySection.style.display = 'block'; 
             } else {
-                alert('Khóa không hợp lệ. Vui lòng nhập lại.');
+                alert('Key sai mẹ rồi. Vui lòng nhập lại.');
             }
         }, 2000); 
     };
@@ -267,7 +283,7 @@
 
     document.getElementById('rotateButton').onclick = function() {
         const randomCircle = Math.random() < 0.5 ? document.getElementById('circleA') : document.getElementById('circleB'); 
-        let blinkCount = 10; 
+        let blinkCount = 5; 
         const blinkInterval = setInterval(() => {
             randomCircle.classList.toggle('hidden'); 
             blinkCount--;
@@ -275,7 +291,7 @@
             if (blinkCount <= 0) { 
                 clearInterval(blinkInterval);
                 randomCircle.classList.remove('hidden'); 
-                botResult = randomCircle === document.getElementById('circleA') ? 'A' : 'B'; 
+                botResult = randomCircle === document.getElementById('circleA') ? 'Tài' : 'Xỉu'; 
                 analysisResult.textContent = botResult; 
                 resultSection.style.display = 'block'; 
                 updateResultCircle(); 
@@ -286,7 +302,7 @@
 
     function updateResultCircle() {
         const resultCircle = document.getElementById('resultCircle');
-        if (botResult === 'A') {
+        if (botResult === 'Tài') {
             resultCircle.style.backgroundColor = 'black'; 
             resultCircle.style.color = 'white';
         } else {

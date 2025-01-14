@@ -1,0 +1,99 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    background-color: #F5F5DC; /* Nền màu bee nhẹ */
+    padding-top: 20px; /* Thêm khoảng cách phía trên */
+}
+h1 {
+    font-size: 36px; /* Kích thước chữ lớn cho tiêu đề */
+    margin-bottom: 10px; /* Khoảng cách phía dưới tiêu đề */
+}
+hr {
+    width: 80%; /* Chiều rộng của đường kẻ */
+    border: none; /* Không có đường biên */
+    height: 2px; /* Độ dày của đường kẻ */
+    background-color: #3498db; /* Màu của đường kẻ */
+    margin-bottom: 20px; /* Khoảng cách phía dưới đường kẻ */
+}
+.container {
+    display: flex;
+    gap: 50px; /* Khoảng cách giữa A và B */
+}
+.circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    transition: opacity 0.3s;
+    text-align: center;
+    line-height: 50px; /* Căn giữa chữ bên trong hình tròn */
+    font-size: 24px; /* Kích thước chữ bên trong hình tròn */
+    cursor: pointer; /* Con trỏ khi di chuột lên hình tròn */
+}
+.hidden {
+    opacity: 0.5; /* Nhấp nháy */
+}
+.button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 30px;
+    margin: 20px;
+}
+.vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.label {
+    font-size: 24px;
+    margin-top: 5mm; /* Khoảng cách khoảng 5mm giữa hình tròn và chữ */
+}
+.circle-container {
+    border: 2px solid #3498db; /* Đường viền màu xanh */
+    border-radius: 10px; /* Bo tròn các góc */
+    padding: 20px; /* Thêm khoảng cách bên trong */
+    background-color: white; /* Màu nền trắng cho khung */
+    text-align: center; /* Căn giữa văn bản */
+}
+#circleA {
+    background-color: black; /* Màu đen cho A */
+    color: white; /* Màu chữ trắng */
+}
+#circleB {
+    background-color: white; /* Màu trắng cho B */
+    border: 2px solid black; /* Đường viền cho B để dễ thấy */
+}
+.loader {
+    display: none; /* Ẩn loader ban đầu */
+    font-size: 24px; 
+    margin-bottom: 20px; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Căn giữa */
+}
+.input-container {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.game-section {
+    display: none; /* Ẩn giao diện chính ban đầu */
+}
+.history-box {
+    margin-top: 20px; /* Khoảng cách phần lịch sử và phần trên */
+    text-align: center; /* Căn giữa văn bản */
+}
+.submit-button {
+    padding: 10px 20px;
+    background-color: #3498db; /* Màu nền cho nút gửi */
+    color: white; /* Màu chữ trắng */
+    border: none; /* Không có đường viền */
+    border-radius: 5px; /* Bo tròn các góc của nút */
+    cursor: pointer; /* Con trỏ khi di chuột lên nút */
+    margin-top: 10px; /* Khoảng cách phía trên nút */
+}

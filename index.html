@@ -28,7 +28,7 @@
         .container {
             display: flex;
             gap: 50px;
-            justify-content: center; 
+            justify-content: center;
             width: 100%;
         }
         .circle {
@@ -77,8 +77,8 @@
         }
         .loader {
             display: none;
-            font-size: 24px; 
-            margin-bottom: 20px; 
+            font-size: 24px;
+            margin-bottom: 20px;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -91,43 +91,43 @@
             align-items: center;
         }
         .result-section {
-            margin-top: 30px; 
-            margin-bottom: 20px; 
-            text-align: center; 
+            margin-top: 30px;
+            margin-bottom: 20px;
+            text-align: center;
         }
         .compare-result span {
-            font-size: 40px; 
+            font-size: 40px;
         }
         .green {
-            color: green; 
+            color: green;
         }
         .red {
-            color: red; 
+            color: red;
         }
         .separator {
             width: 100%;
-            border-top: 2px dashed #3498db; 
-            margin: 10px 0; 
+            border-top: 2px dashed #3498db;
+            margin: 10px 0;
         }
         .compare-history {
             display: flex;
             flex-direction: row;
-            flex-wrap: wrap; 
-            margin-top: 10px; 
-            justify-content: center; 
+            flex-wrap: wrap;
+            margin-top: 10px;
+            justify-content: center;
         }
         .accuracy-section {
             margin-top: 20px;
-            font-size: 24px; 
-            text-align: center; 
+            font-size: 24px;
+            text-align: center;
         }
         .info-box {
-            border: 2px solid #007BFF; 
-            border-radius: 8px; 
-            padding: 20px; 
-            background-color: #ffffff; 
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
-            text-align: center; 
+            border: 2px solid #007BFF;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
             margin-bottom: 20px; /* Khoảng cách giữa khung thông tin và phần nhập key */
         }
     </style>
@@ -149,14 +149,14 @@
     <button id="submitKey">Gửi Key</button>
 </div>
 
-<div class="loader" id="loader">HTeam<br>Đang tải<span id="dots">.</span></div> 
+<div class="loader" id="loader">HTeam<br>Đang tải<span id="dots">.</span></div>
 
 <div class="input-container" id="historySection" style="display: none;">
     <h3>Lịch Sử</h3>
     <p id="historyText">Chưa có lịch sử.</p>
     <button class="circle" id="buttonA" onclick="addToHistory('Tài')">Tài</button>
     <button class="circle" id="buttonB" onclick="addToHistory('Xỉu')">Xỉu</button>
-    <button class="submit-button" id="submitHistory">Gửi Lịch Sử</button> 
+    <button class="submit-button" id="submitHistory">Gửi Lịch Sử</button>
 </div>
 
 <div class="game-section" id="gameSection" style="display: none;">
@@ -191,7 +191,7 @@
         </div>
     </div>
     <div class="separator"></div>
-    
+
     <h3>Kết quả game:</h3>
     <div class="container">
         <button class="circle" id="resultCircleA" onclick="setGameResult('Tài')">Tài</button>
@@ -222,35 +222,35 @@
     const gameSelectionResult = document.getElementById('gameSelectionResult');
     const selectedResult = document.getElementById('selectedResult');
 
-    let validKeys = []; 
-    let history = []; 
-    let botResult = ''; 
-    let gameResult = ''; 
-    let accuracy = 100; 
+    let validKeys = [];
+    let history = [];
+    let botResult = '';
+    let gameResult = '';
+    let accuracy = 100;
 
-    submitKeyButton.onclick = async function() {
-        loader.style.display = 'block'; 
-        
+    submitKeyButton.onclick = async function () {
+        loader.style.display = 'block';
+
         const dotInterval = setInterval(() => {
             const dotCount = (dots.textContent.length % 3) + 1;
             dots.textContent = '.'.repeat(dotCount);
-        }, 300); 
+        }, 300);
 
         setTimeout(async () => {
-            clearInterval(dotInterval); 
-            loader.style.display = 'none'; 
-            
-            await loadValidKeys(); 
+            clearInterval(dotInterval);
+            loader.style.display = 'none';
+
+            await loadValidKeys();
 
             if (validKeys.includes(apikeyInput.value)) {
                 alert('Key đúng rồi nè: ' + apikeyInput.value);
                 apikeyInput.value = '';
-                inputSection.style.display = 'none'; 
-                historySection.style.display = 'block'; 
+                inputSection.style.display = 'none';
+                historySection.style.display = 'block';
             } else {
                 alert('Key sai mẹ rồi. Vui lòng nhập lại.');
             }
-        }, 2000); 
+        }, 2000);
     };
 
     function addToHistory(circle) {
@@ -260,78 +260,62 @@
 
     function updateHistoryDisplay() {
         historyText.textContent = history.length > 0 ? history.join(', ') : 'Chưa có lịch sử.';
-        
+
         if (history.length > 10) {
             history.shift();
         }
     }
 
-    submitHistoryButton.onclick = function() {
+    submitHistoryButton.onclick = function () {
         if (history.length > 0) {
             alert('Bạn đã gửi lịch sử: ' + history.join(', '));
-            historySection.style.display = 'none'; 
-            gameSection.style.display = 'block'; 
+            historySection.style.display = 'none';
+            gameSection.style.display = 'block';
         } else {
             alert('Bạn chưa nhập lịch sử nào.');
         }
     };
 
     function setGameSelection(result) {
-        selectedResult.textContent = result; 
-        gameSelectionResult.style.display = 'block'; 
+        selectedResult.textContent = result;
+        gameSelectionResult.style.display = 'block';
     }
 
-    document.getElementById('rotateButton').onclick = function() {
-        const randomCircle = Math.random() < 0.5 ? document.getElementById('circleA') : document.getElementById('circleB'); 
-        let blinkCount = 5; 
+    document.getElementById('rotateButton').onclick = function () {
+        const randomCircle = Math.random() < 0.5 ? document.getElementById('circleA') : document.getElementById('circleB');
+        let blinkCount = 5;
         const blinkInterval = setInterval(() => {
-            randomCircle.classList.toggle('hidden'); 
+            randomCircle.classList.toggle('hidden');
             blinkCount--;
 
-            if (blinkCount <= 0) { 
+            if (blinkCount <= 0) {
                 clearInterval(blinkInterval);
-                randomCircle.classList.remove('hidden'); 
-                botResult = randomCircle === document.getElementById('circleA') ? 'Tài' : 'Xỉu'; 
-                analysisResult.textContent = botResult; 
-                resultSection.style.display = 'block'; 
-                updateResultCircle(); 
-                calculateAccuracy(); 
+                randomCircle.classList.remove('hidden');
+                botResult = randomCircle === document.getElementById('circleA') ? 'Tài' : 'Xỉu';
+                analysisResult.textContent = botResult;
+                resultSection.style.display = 'block';
+                updateResultCircle();
+                // Không tính độ chính xác ở đây
             }
-        }, 300); 
+        }, 300);
     };
 
     function updateResultCircle() {
         const resultCircle = document.getElementById('resultCircle');
         if (botResult === 'Tài') {
-            resultCircle.style.backgroundColor = 'black'; 
+            resultCircle.style.backgroundColor = 'black';
             resultCircle.style.color = 'white';
         } else {
-            resultCircle.style.backgroundColor = 'white'; 
-            resultCircle.style.border = '2px solid black'; 
-            resultCircle.style.color = 'black'; 
+            resultCircle.style.backgroundColor = 'white';
+            resultCircle.style.border = '2px solid black';
+            resultCircle.style.color = 'black';
         }
-    }
-
-    function calculateAccuracy() {
-        if (botResult && gameResult) {
-            if (botResult === gameResult) {
-                accuracy = Math.min(100, accuracy + 15); 
-            } else {
-                accuracy = Math.max(0, accuracy - 10); 
-            }
-            displayAccuracy();
-        }
-    }
-
-    function displayAccuracy() {
-        accuracyDisplay.style.display = 'block';
-        accuracyResult.textContent = `${accuracy}%`; 
     }
 
     async function loadValidKeys() {
-        const response = await fetch('https://docs.google.com/document/d/1ourm5Q_-do9idXDfq41NWc_HKUjIzQCiUZz3BpGshsA/export?format=txt'); 
+        const response = await fetch('https://docs.google.com/document/d/1ourm5Q_-do9idXDfq41NWc_HKUjIzQCiUZz3BpGshsA/export?format=txt');
         const text = await response.text();
-        validKeys = text.split(/\s+/).filter(word => word.length >= 5); 
+        validKeys = text.split(/\s+/).filter(word => word.length >= 5);
         console.log('Valid keys:', validKeys);
     }
 
@@ -345,20 +329,28 @@
         if (botResult && gameResult) {
             if (botResult === gameResult) {
                 comparisonResult.innerHTML = `<span class="green">✓</span> Kết quả giống nhau!`;
+                accuracy = Math.min(100, accuracy + 15); // Cộng 15% nếu giống nhau
             } else {
                 comparisonResult.innerHTML = `<span class="red">×</span> Kết quả không giống nhau!`;
+                accuracy = Math.max(0, accuracy - 10); // Trừ 10% nếu không giống nhau
             }
+            displayAccuracy(); // Hiển thị độ chính xác
         }
+    }
+
+    function displayAccuracy() {
+        accuracyDisplay.style.display = 'block';
+        accuracyResult.textContent = `${accuracy}%`;
     }
 
     function updateCompareHistory() {
         if (compareHistory.childElementCount >= 10) {
-            compareHistory.removeChild(compareHistory.firstChild); 
+            compareHistory.removeChild(compareHistory.firstChild);
         }
-        
+
         const resultSpan = document.createElement('span');
         resultSpan.className = 'compare-result';
-        resultSpan.textContent = (botResult === gameResult) ? '✓' : '×'; 
+        resultSpan.textContent = (botResult === gameResult) ? '✓' : '×';
         compareHistory.appendChild(resultSpan);
     }
 </script>

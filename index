@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giao Diện Nhấp Nháy</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            background-color: #F5F5DC; /* Nền màu bee nhẹ */
+            padding-top: 20px; /* Thêm khoảng cách phía trên */
+        }
+        h1 {
+            font-size: 36px; /* Kích thước chữ lớn cho tiêu đề */
+            margin-bottom: 10px; /* Khoảng cách phía dưới tiêu đề */
+        }
+        hr {
+            width: 80%; /* Chiều rộng của đường kẻ */
+            border: none; /* Không có đường biên */
+            height: 2px; /* Độ dày của đường kẻ */
+            background-color: #3498db; /* Màu của đường kẻ */
+            margin-bottom: 20px; /* Khoảng cách phía dưới đường kẻ */
+        }
+        .container {
+            display: flex;
+            gap: 50px; /* Khoảng cách giữa A và B */
+        }
+        .circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            transition: opacity 0.3s;
+            text-align: center;
+            line-height: 50px; /* Căn giữa chữ bên trong hình tròn */
+            font-size: 24px; /* Kích thước chữ bên trong hình tròn */
+            cursor: pointer; /* Con trỏ khi di chuột lên hình tròn */
+        }
+        .hidden {
+            opacity: 0.5; /* Nhấp nháy */
+        }
+        .button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 30px;
+            margin: 20px;
+        }
+        .vertical {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .label {
+            font-size: 24px;
+            margin-top: 5mm; /* Khoảng cách khoảng 5mm giữa hình tròn và chữ */
+        }
+        .circle-container {
+            border: 2px solid #3498db; /* Đường viền màu xanh */
+            border-radius: 10px; /* Bo tròn các góc */
+            padding: 20px; /* Thêm khoảng cách bên trong */
+            background-color: white; /* Màu nền trắng cho khung */
+            text-align: center; /* Căn giữa văn bản */
+        }
+        #circleA {
+            background-color: black; /* Màu đen cho A */
+            color: white; /* Màu chữ trắng */
+        }
+        #circleB {
+            background-color: white; /* Màu trắng cho B */
+            border: 2px solid black; /* Đường viền cho B để dễ thấy */
+        }
+        .loader {
+            display: none; /* Ẩn loader ban đầu */
+            font-size: 24px; 
+            margin-bottom: 20px; 
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Căn giữa */
+        }
+        .input-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .game-section {
+            display: none; /* Ẩn giao diện chính ban đầu */
+        }
+        .history-box {
+            margin-top: 20px; /* Khoảng cách phần lịch sử và phần trên */
+            text-align: center; /* Căn giữa văn bản */
+        }
+        .submit-button {
+            padding: 10px 20px;
+            background-color: #3498db; /* Màu nền cho nút gửi */
+            color: white; /* Màu chữ trắng */
+            border: none; /* Không có đường viền */
+            border-radius: 5px; /* Bo tròn các góc của nút */
+            cursor: pointer; /* Con trỏ khi di chuột lên nút */
+            margin-top: 10px; /* Khoảng cách phía trên nút */
+        }
+    </style>
+</head>
+<body>
+
+<h1>BOT TÀI XỈU</h1>
+<hr>
+
+<div class="input-container" id="inputSection">
+    <input type="text" id="apikey" placeholder="Nhập khóa của bạn" />
+    <button id="submitKey">Gửi Khóa</button>
+</div>
+
+<div class="loader" id="loader">🔄 Đang tải<span id="dots">.</span></div> 
+
+<div class="input-container" id="historySection" style="display: none;">
+    <div class="history-box">
+        <h3>Lịch Sử</h3>
+        <p id="historyText">Chưa có lịch sử.</p>
+    </div>
+    <div>
+        <button class="circle" id="circleA" onclick="addToHistory('A')">A</button>
+        <button class="circle" id="circleB" onclick="addToHistory('B')">B</button>
+    </div>
+    <button class="submit-button" id="submitHistory">Gửi Lịch Sử</button> <!-- Nút gửi lịch sử -->
+</div>
+
+<div class="game-section" id="gameSection">
+    <div class="circle-container">
+        <div class="container">
+            <div class="vertical">
+                <div id="circleA" class="circle">A</div>
+                <div class="label">A</div>
+            </div>
+            <button class="button" id="rotateButton">🔁</button>
+            <div class="vertical">
+                <div id="circleB" class="circle">B</div>
+                <div class="label">B</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const loader = document.getElementById('loader');
+    const submitKeyButton = document.getElementById('submitKey');
+    const apikeyInput = document.getElementById('apikey');
+    const historyText = document.getElementById('historyText');
+    const historySection = document.getElementById('historySection');
+    const gameSection = document.getElementById('gameSection');
+    const dots = document.getElementById('dots');
+    const submitHistoryButton = document.getElementById('submitHistory');
+
+    let validKeys = []; 
+    let history = []; // Mảng lưu lịch sử nhập
+
+    submitKeyButton.onclick = async function() {
+        loader.style.display = 'block'; 
+        
+        const dotInterval = setInterval(() => {
+            const dotCount = (dots.textContent.length % 3) + 1;
+            dots.textContent = '.'.repeat(dotCount);
+        }, 300); 
+
+        setTimeout(async () => {
+            clearInterval(dotInterval); 
+            loader.style.display = 'none'; 
+            
+            await loadValidKeys(); 
+
+            if (validKeys.includes(apikeyInput.value)) {
+                alert('Khóa đã được gửi: ' + apikeyInput.value);
+                apikeyInput.value = '';
+                inputSection.style.display = 'none'; // Ẩn khung nhập liệu khóa
+                historySection.style.display = 'block'; // Hiện khung nhập lịch sử
+            } else {
+                alert('Khóa không hợp lệ. Vui lòng nhập lại.');
+            }
+        }, 2000); 
+    };
+
+    function addToHistory(circle) {
+        if (circle === 'A') {
+            history.push('A');
+        } else {
+            history.push('B');
+        }
+        updateHistoryDisplay();
+    }
+
+    function updateHistoryDisplay() {
+        historyText.textContent = history.length > 0 ? history.join(', ') : 'Chưa có lịch sử.';
+    }
+
+    submitHistoryButton.onclick = function() {
+        if (history.length > 0) {
+            alert('Bạn đã gửi lịch sử: ' + history.join(', '));
+            historySection.style.display = 'none'; // Ẩn khung nhập lịch sử
+            gameSection.style.display = 'block'; // Hiện giao diện chính
+        } else {
+            alert('Bạn chưa nhập lịch sử nào.');
+        }
+    };
+
+    document.getElementById('rotateButton').onclick = function() {
+        // Chọn ngẫu nhiên giữa A và B
+        const randomCircle = Math.random() < 0.5 ? document.getElementById('circleA') : document.getElementById('circleB'); 
+        let blinkCount = 10; 
+        const blinkInterval = setInterval(() => {
+            randomCircle.classList.toggle('hidden'); 
+            blinkCount--;
+
+            if (blinkCount <= 0) { 
+                clearInterval(blinkInterval);
+                randomCircle.classList.remove('hidden'); 
+            }
+        }, 300); 
+    };
+
+    async function loadValidKeys() {
+        const response = await fetch('https://docs.google.com/document/d/1ourm5Q_-do9idXDfq41NWc_HKUjIzQCiUZz3BpGshsA/export?format=txt'); 
+        const text = await response.text();
+        validKeys = text.split(/\s+/).filter(word => word.length >= 5); 
+        console.log('Valid keys:', validKeys);
+    }
+</script>
+
+</body>
+</html>

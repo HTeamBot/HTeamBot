@@ -3,357 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CREATED BY HTEAM</title>
+    <title>Kết Quả Ngẫu Nhiên</title>
     <style>
         body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+            color: #f0f0f0;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
             align-items: center;
-            height: auto;
-            background-color: #F5F5DC;
-            padding-top: 20px;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .header {
+            margin-top: 50px;
         }
         h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
+            font-size: 40px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 0, 0.7);
+            color: #ffcc00;
+            margin: 0;
+            padding: 0;
+            animation: bounce 1s infinite;
         }
-        hr {
-            width: 80%;
-            border: none;
-            height: 2px;
-            background-color: #3498db;
-            margin-bottom: 20px;
+        .description {
+            font-size: 20px;
+            margin-top: 5px;
+            opacity: 0.9;
+            color: #00ffcc;
         }
-        .container {
-            display: flex;
-            gap: 50px;
-            justify-content: center;
-            width: 100%;
-        }
-        .circle {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            transition: opacity 0.3s;
-            text-align: center;
-            line-height: 50px;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        .hidden {
-            opacity: 0.5;
-        }
-        .button {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 30px;
-            margin: 20px;
-        }
-        .vertical {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .label {
-            font-size: 24px;
-            margin-top: 5mm;
-        }
-        .circle-container {
-            border: 2px solid #3498db;
+        .result-container {
+            border: 2px solid #ff6699;
             border-radius: 10px;
             padding: 20px;
-            background-color: white;
-            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+            margin: 20px 0;
         }
-        #circleA {
-            background-color: black;
-            color: white;
+        .result {
+            font-weight: bold;
+            font-size: 48px;
+            color: #ffcc00;
         }
-        #circleB {
-            background-color: white;
-            border: 2px solid black;
-        }
-        .loader {
-            display: none;
+        .time, .rate {
             font-size: 24px;
-            margin-bottom: 20px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .input-container {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .result-section {
-            margin-top: 30px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .compare-result span {
-            font-size: 40px;
-        }
-        .green {
-            color: green;
-        }
-        .red {
-            color: red;
-        }
-        .separator {
-            width: 100%;
-            border-top: 2px dashed #3498db;
-            margin: 10px 0;
-        }
-        .compare-history {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
             margin-top: 10px;
+            text-align: center;
+            color: #ff6699;
+        }
+        .rate {
+            font-size: 36px;
+            color: #00ff00;
+        }
+        .toggle-container {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
             justify-content: center;
         }
-        .accuracy-section {
+        #alwaysOn, #showHistory {
+            margin-right: 10px;
+        }
+        .music-container {
             margin-top: 20px;
-            font-size: 24px;
+            display: none; /* Ẩn phần nhạc ban đầu */
+        }
+        .volume-control {
+            margin-left: 10px;
+            width: 100px;
+        }
+        .history-table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        .history-table th, .history-table td {
+            border: 1px solid #ff6699;
+            padding: 8px;
             text-align: center;
         }
-        .info-box {
-            border: 2px solid #007BFF;
-            border-radius: 8px;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-bottom: 20px; /* Khoảng cách giữa khung thông tin và phần nhập key */
+        .history-table th {
+            background-color: #ff6699;
+            color: white;
         }
     </style>
 </head>
 <body>
 
-<h1>BOT TÀI XỈU HTEAM</h1>
-<hr>
-
-<div class="input-container" id="inputSection">
-    <div class="info-box">
-        <h3>Bot Phân Tích Kết Quả Game Tài Xỉu</h3>
-        <p>Created by HTeam</p>
-        <p>Admin Nguyễn Việt Hùng</p>
-        <p>Version: 1.1.0</p>
-        <p>Lấy key tại uid fb: viethung2002tienhai</p>
+    <div class="header">
+        <h1>PHOENIX</h1>
+        <div class="description">Còn thở là còn gỡ</div>
     </div>
-    <input type="text" id="apikey" placeholder="Nhập khóa của bạn" />
-    <button id="submitKey">Gửi Key</button>
-</div>
 
-<div class="loader" id="loader">HTeam<br>Đang tải<span id="dots">.</span></div>
-
-<div class="input-container" id="historySection" style="display: none;">
-    <h3>Lịch Sử</h3>
-    <p id="historyText">Chưa có lịch sử.</p>
-    <button class="circle" id="buttonA" onclick="addToHistory('Tài')">Tài</button>
-    <button class="circle" id="buttonB" onclick="addToHistory('Xỉu')">Xỉu</button>
-    <button class="submit-button" id="submitHistory">Gửi Lịch Sử</button>
-</div>
-
-<div class="game-section" id="gameSection" style="display: none;">
-    <div class="circle-container">
-        <div class="container">
-            <div class="vertical">
-                <div id="circleA" class="circle" onclick="setGameSelection('Tài')">T</div>
-                <div class="label">Tài</div>
-            </div>
-            <button class="button" id="rotateButton">🔁</button>
-            <div class="vertical">
-                <div id="circleB" class="circle" onclick="setGameSelection('Xỉu')">X</div>
-                <div class="label">Xỉu</div>
-            </div>
-        </div>
+    <div class="result-container">
+        <div class="result" id="result">Kết quả sẽ xuất hiện ngay...</div>
+        <div class="rate" id="rateWin">Tỉ lệ Win: 0%</div>
     </div>
-    <div id="gameSelectionResult" class="result-section" style="display: none;">
-        <h3>Kết quả bạn chọn:</h3>
-        <p id="selectedResult" style="font-size: 24px;"></p>
+
+    <div class="time" id="time">Thời gian: </div>
+
+    <div class="toggle-container">
+        <input type="checkbox" id="alwaysOn">
+        <label for="alwaysOn">Luôn bật màn hình</label>
+        <input type="checkbox" id="showHistory">
+        <label for="showHistory">Hiển thị lịch sử kết quả</label>
+        <input type="checkbox" id="playMusic" onchange="toggleMusic()">
+        <label for="playMusic">Chạy nhạc nền</label>
+        <input type="range" id="volumeControl" class="volume-control" min="0" max="1" step="0.01" value="0.5" onchange="setVolume(this.value)">
     </div>
-    <div class="accuracy-section" id="accuracyDisplay" style="display: none;">
-        <h3>Tỷ lệ chính xác:</h3>
-        <p id="accuracyResult"></p>
+
+    <table class="history-table" id="historyTable" style="display: none;">
+        <thead>
+            <tr>
+                <th>Kết Quả</th>
+                <th>Tỉ Lệ Win</th>
+            </tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+    </table>
+
+    <div class="music-container" id="musicContainer">
+        <iframe id="backgroundMusic" width="0" height="0" src="https://www.youtube.com/embed/Rs3yQEzz_2Q?autoplay=1&controls=0&mute=1&loop=1&playlist=Rs3yQEzz_2Q" frameborder="0" allow="autoplay"></iframe>
     </div>
-</div>
 
-<div class="result-section" id="resultSection" style="display: none;">
-    <h3>Kết quả phân tích:</h3>
-    <div>
-        <div id="resultCircle" class="circle">
-            <span id="resultText"></span>
-        </div>
-    </div>
-    <div class="separator"></div>
+    <script>
+        let lastUpdateTimestamp = 0;
+        let waitingForResult = false;
+        let wakeLock = null;
+        const history = [];
 
-    <h3>Kết quả game:</h3>
-    <div class="container">
-        <button class="circle" id="resultCircleA" onclick="setGameResult('Tài')">Tài</button>
-        <button class="circle" id="resultCircleB" onclick="setGameResult('Xỉu')">Xỉu</button>
-    </div>
-    <div class="separator"></div>
-
-    <h3>Kết quả so sánh:</h3>
-    <div id="comparisonResult" class="compare-result"></div>
-    <div class="compare-history" id="compareHistory"></div>
-</div>
-
-<script>
-    const loader = document.getElementById('loader');
-    const submitKeyButton = document.getElementById('submitKey');
-    const apikeyInput = document.getElementById('apikey');
-    const historyText = document.getElementById('historyText');
-    const historySection = document.getElementById('historySection');
-    const gameSection = document.getElementById('gameSection');
-    const resultSection = document.getElementById('resultSection');
-    const analysisResult = document.getElementById('resultText');
-    const comparisonResult = document.getElementById('comparisonResult');
-    const accuracyDisplay = document.getElementById('accuracyDisplay');
-    const accuracyResult = document.getElementById('accuracyResult');
-    const compareHistory = document.getElementById('compareHistory');
-    const dots = document.getElementById('dots');
-    const submitHistoryButton = document.getElementById('submitHistory');
-    const gameSelectionResult = document.getElementById('gameSelectionResult');
-    const selectedResult = document.getElementById('selectedResult');
-
-    let validKeys = [];
-    let history = [];
-    let botResult = '';
-    let gameResult = '';
-    let accuracy = 100;
-
-    submitKeyButton.onclick = async function () {
-        loader.style.display = 'block';
-
-        const dotInterval = setInterval(() => {
-            const dotCount = (dots.textContent.length % 3) + 1;
-            dots.textContent = '.'.repeat(dotCount);
-        }, 300);
-
-        setTimeout(async () => {
-            clearInterval(dotInterval);
-            loader.style.display = 'none';
-
-            await loadValidKeys();
-
-            if (validKeys.includes(apikeyInput.value)) {
-                alert('Key đúng rồi nè: ' + apikeyInput.value);
-                apikeyInput.value = '';
-                inputSection.style.display = 'none';
-                historySection.style.display = 'block';
+        const alwaysOnCheckbox = document.getElementById('alwaysOn');
+        alwaysOnCheckbox.addEventListener('change', async function () {
+            if (this.checked) {
+                try {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('Màn hình luôn sáng');
+                } catch (err) {
+                    console.error(`${err.name}, ${err.message}`);
+                }
             } else {
-                alert('Key sai mẹ rồi. Vui lòng nhập lại.');
+                if (wakeLock) {
+                    await wakeLock.release();
+                    console.log('Màn hình không còn sáng');
+                    wakeLock = null;
+                }
             }
-        }, 2000);
-    };
+        });
 
-    function addToHistory(circle) {
-        history.push(circle);
-        updateHistoryDisplay();
-    }
-
-    function updateHistoryDisplay() {
-        historyText.textContent = history.length > 0 ? history.join(', ') : 'Chưa có lịch sử.';
-
-        if (history.length > 10) {
-            history.shift();
-        }
-    }
-
-    submitHistoryButton.onclick = function () {
-        if (history.length > 0) {
-            alert('Bạn đã gửi lịch sử: ' + history.join(', '));
-            historySection.style.display = 'none';
-            gameSection.style.display = 'block';
-        } else {
-            alert('Bạn chưa nhập lịch sử nào.');
-        }
-    };
-
-    function setGameSelection(result) {
-        selectedResult.textContent = result;
-        gameSelectionResult.style.display = 'block';
-    }
-
-    document.getElementById('rotateButton').onclick = function () {
-        const randomCircle = Math.random() < 0.5 ? document.getElementById('circleA') : document.getElementById('circleB');
-        let blinkCount = 5;
-        const blinkInterval = setInterval(() => {
-            randomCircle.classList.toggle('hidden');
-            blinkCount--;
-
-            if (blinkCount <= 0) {
-                clearInterval(blinkInterval);
-                randomCircle.classList.remove('hidden');
-                botResult = randomCircle === document.getElementById('circleA') ? 'Tài' : 'Xỉu';
-                analysisResult.textContent = botResult;
-                resultSection.style.display = 'block';
-                updateResultCircle();
-                // Không tính độ chính xác ở đây
-            }
-        }, 300);
-    };
-
-    function updateResultCircle() {
-        const resultCircle = document.getElementById('resultCircle');
-        if (botResult === 'Tài') {
-            resultCircle.style.backgroundColor = 'black';
-            resultCircle.style.color = 'white';
-        } else {
-            resultCircle.style.backgroundColor = 'white';
-            resultCircle.style.border = '2px solid black';
-            resultCircle.style.color = 'black';
-        }
-    }
-
-    async function loadValidKeys() {
-        const response = await fetch('https://docs.google.com/document/d/1ourm5Q_-do9idXDfq41NWc_HKUjIzQCiUZz3BpGshsA/export?format=txt');
-        const text = await response.text();
-        validKeys = text.split(/\s+/).filter(word => word.length >= 5);
-        console.log('Valid keys:', validKeys);
-    }
-
-    function setGameResult(result) {
-        gameResult = result;
-        compareResults();
-        updateCompareHistory();
-    }
-
-    function compareResults() {
-        if (botResult && gameResult) {
-            if (botResult === gameResult) {
-                comparisonResult.innerHTML = `<span class="green">✓</span> Kết quả giống nhau!`;
-                accuracy = Math.min(100, accuracy + 15); // Cộng 15% nếu giống nhau
+        const showHistoryCheckbox = document.getElementById('showHistory');
+        showHistoryCheckbox.addEventListener('change', function () {
+            const historyTable = document.getElementById('historyTable');
+            if (this.checked) {
+                historyTable.style.display = 'table';
+                updateHistoryDisplay();
             } else {
-                comparisonResult.innerHTML = `<span class="red">×</span> Kết quả không giống nhau!`;
-                accuracy = Math.max(0, accuracy - 10); // Trừ 10% nếu không giống nhau
+                historyTable.style.display = 'none';
             }
-            displayAccuracy(); // Hiển thị độ chính xác
-        }
-    }
+        });
 
-    function displayAccuracy() {
-        accuracyDisplay.style.display = 'block';
-        accuracyResult.textContent = `${accuracy}%`;
-    }
-
-    function updateCompareHistory() {
-        if (compareHistory.childElementCount >= 10) {
-            compareHistory.removeChild(compareHistory.firstChild);
+        function getRandomResult() {
+            const results = ['Lớn', 'Nhỏ'];
+            return results[Math.floor(Math.random() * results.length)];
         }
 
-        const resultSpan = document.createElement('span');
-        resultSpan.className = 'compare-result';
-        resultSpan.textContent = (botResult === gameResult) ? '✓' : '×';
-        compareHistory.appendChild(resultSpan);
-    }
-</script>
+        function getRandomWinRate() {
+            return Math.floor(Math.random() * 101);
+        }
+
+        function updateTime() {
+            const currentTime = new Date();
+            const timeString = currentTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('time').textContent = `Thời gian: ${timeString}`;
+        }
+
+        function updateResult() {
+            const currentTimestamp = Date.now();
+            const resultDiv = document.getElementById('result');
+            const rateDiv = document.getElementById('rateWin');
+
+            const currentSeconds = new Date().getSeconds();
+            if (currentSeconds === 0) {
+                if (!waitingForResult) {
+                    waitingForResult = true;
+                    resultDiv.textContent = "Chờ kết quả...";
+
+                    setTimeout(() => {
+                        const result = getRandomResult();
+                        const winRate = getRandomWinRate();
+                        resultDiv.textContent = `Kết quả: ${result}`;
+                        rateDiv.textContent = `Tỉ lệ Win: ${winRate}%`;
+
+                        addToHistory(result, winRate);
+
+                        lastUpdateTimestamp = Date.now();
+                        waitingForResult = false;
+
+                        if (showHistoryCheckbox.checked) {
+                            updateHistoryDisplay();
+                        }
+                    }, 5000);
+                }
+            }
+        }
+
+        function addToHistory(result, winRate) {
+            if (history.length >= 10) {
+                history.shift();
+            }
+            history.push({ result, winRate });
+        }
+
+        function updateHistoryDisplay() {
+            const historyBody = document.getElementById('historyBody');
+            historyBody.innerHTML = '';
+            history.forEach(entry => {
+                const row = document.createElement('tr');
+                const resultCell = document.createElement('td');
+                const winRateCell = document.createElement('td');
+                
+                resultCell.textContent = entry.result;
+                winRateCell.textContent = `${entry.winRate}%`;
+
+                row.appendChild(resultCell);
+                row.appendChild(winRateCell);
+                historyBody.insertBefore(row, historyBody.firstChild);
+            });
+        }
+
+        function toggleMusic() {
+            const musicContainer = document.getElementById('musicContainer');
+            const playMusicCheckbox = document.getElementById('playMusic');
+
+            if (playMusicCheckbox.checked) {
+                musicContainer.style.display = 'block'; // Hiện phần nhạc
+                document.getElementById('backgroundMusic').contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            } else {
+                document.getElementById('backgroundMusic').contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); // Dừng nhạc
+            }
+        }
+
+        function setVolume(volume) {
+            const audio = document.getElementById('backgroundMusic');
+            audio.volume = volume; // Điều chỉnh âm lượng
+        }
+
+        setInterval(updateTime, 1000);
+        setInterval(updateResult, 1000);
+
+        updateTime();
+        updateResult();
+    </script>
 
 </body>
-</html>
+    </html>
+    
